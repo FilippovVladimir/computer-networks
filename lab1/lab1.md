@@ -1,8 +1,6 @@
 # Практическая работа №1  
 ## Консольные средства настройки сетевых компонентов в ОС Windows (Windows 10)
 
----
-
 ## 1. Проверка компонентов сетевого подключения
 
 Открытие окна сетевых подключений:
@@ -14,7 +12,6 @@
 - Служба доступа к файлам и принтерам Microsoft  
 - Протокол Интернета версии 4 (TCP/IPv4)
 
-📸 Скриншот:  
 ![Свойства подключения](01_properties.png)
 
 ### Запрет доступа по SMB
@@ -22,10 +19,7 @@
 Отключена служба:
 - «Служба доступа к файлам и принтерам Microsoft»
 
-📸 Скриншот:  
 ![Отключение SMB](02_disable_smb.png)
-
----
 
 ## 2. Использование утилиты ping
 
@@ -59,9 +53,7 @@ ping -t google.com
 ping -n 5 google.com > C:\ping_results.txt
 ```
 
-![Ping в файл](07_ping_to_file.png)
-
----
+![Ping в файл](07_ping_saved_file.png)
 
 ## 3. Использование утилиты tracert
 
@@ -82,8 +74,6 @@ tracert -w 2000 google.com
 ```
 
 ![Tracert -w](10_tracert_w.png)
-
----
 
 ## 4. Использование ipconfig
 
@@ -116,8 +106,6 @@ ipconfig /renew
 ```
 
 ![renew](15_ipconfig_renew.png)
-
----
 
 ## 5. Использование команды net
 
@@ -157,8 +145,6 @@ net use R: \SRV\TEST
 
 ![net use](21_net_use.png)
 
----
-
 ## 6. Использование netsh
 
 ```
@@ -170,8 +156,8 @@ netsh interface show interface
 ### Режим DHCP
 
 ```
-netsh interface ip set address name="Wi-Fi" source=dhcp
-netsh interface ip set dns name="Wi-Fi" source=dhcp
+netsh interface ip set address name="Ethernet" source=dhcp
+netsh interface ip set dns name="Ethernet" source=dhcp
 ```
 
 ![После DHCP](23_after_dhcp.png)
@@ -179,8 +165,8 @@ netsh interface ip set dns name="Wi-Fi" source=dhcp
 ### Статический IP
 
 ```
-netsh interface ip set address name="Wi-Fi" static 192.168.X.X 255.255.255.0 192.168.X.1
-netsh interface ip set dns name="Wi-Fi" static 192.168.X.1
+netsh interface ip set address name="Ethernet" static 192.168.0.111 255.255.255.0 192.168.0.1
+netsh interface ip set dns name="Ethernet" static 192.168.0.1
 ```
 
 ![После static](24_after_static.png)
@@ -215,8 +201,6 @@ Rename-NetAdapter -Name "Ethernet" -NewName "MyNet"
 ## Режимы duplex
 - Half-duplex — передача или прием по очереди  
 - Full-duplex — одновременная передача и прием  
-
----
 
 ## Вывод
 
