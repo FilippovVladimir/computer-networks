@@ -1,0 +1,54 @@
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::UTF8
+Write-Host "==============================="
+Write-Host "1) Enable DHCP"
+Write-Host "2) Set static IP"
+Write-Host "3) Show adapter info"
+Write-Host "==============================="
+$choice = Read-Host "Enter your choice (1, 2 or 3)"
+$interface = "Ethernet" # Change this to your actual adapter name if needed
+switch ($choice) {
+"1" {
+Write-Host "Enabling DHCP...
+"
+Set-NetIPInterface -InterfaceAlias $interface -Dhcp Enabled
+Set-DnsClientServerAddress -InterfaceAlias $interface -ResetServerAddresses
+Write-Host "DHCP has been enabled.
+"
+}
+"2" {
+$ipaddr = Read-Host "Enter IP address (e.g. 192.168.1.100)"
+$mask = Read-Host "Enter prefix length (e.g. 24 for 255.255.255.0)"
+$gw = Read-Host "Enter default gateway (e.g. 192.168.1.1)"
+$dns = Read-Host "Enter DNS server (e.g. 8.8.8.8)"
+Write-Host "Removing previous IP settings...
+"
+Get-NetIPAddress -InterfaceAlias $interface -AddressFamily IPv4 |
+Remove-NetIPAddress -Confirm:$false -ErrorAction SilentlyContinue
+Remove-NetRoute -InterfaceAlias $interface -Confirm:$false -ErrorAction
+SilentlyContinue
+Write-Host "Applying new static IP configuration...
+"
+New-NetIPAddress -InterfaceAlias $interface -IPAddress $ipaddr -PrefixLength
+$mask -DefaultGateway $gw
+Set-DnsClientServerAddress -InterfaceAlias $interface -ServerAddresses $dns
+Write-Host "Static IP configuration applied.
+"
+}
+"3" {
+$adapter = Get-NetAdapter -Name $interface -ErrorAction SilentlyContinue
+if ($adapter) {
+Write-Host "Adapter description: $($adapter.InterfaceDescription)"
+Write-Host "Connection state: $($adapter.MediaConnectionState)"
+Write-Host "Link speed: $($adapter.LinkSpeed)"
+Write-Host "MAC address: $($adapter.MacAddress)"
+} else {
+Write-Host "Adapter '$interface' not found. Please check the name.
+"
+}
+}
+}
+default {
+Write-Host "Invalid input. Please enter 1, 2 or 3.
+"
+}
+Pause
