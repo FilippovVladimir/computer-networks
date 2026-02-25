@@ -1,31 +1,31 @@
 @echo off
-chcp 1251 > nul
+chcp 1251
 Setlocal EnableDelayedExpansion
 echo =============================
-echo РќР°СЃС‚СЂРѕР№РєР° СЃРµС‚РµРІРѕРіРѕ РёРЅС‚РµСЂС„РµР№СЃР°
-echo 1) РџРѕР»СѓС‡РёС‚СЊ РЅР°СЃС‚СЂРѕР№РєРё РїРѕ DHCP
-echo 2) Р’РІРµСЃС‚Рё РІСЂСѓС‡РЅСѓСЋ (СЃС‚Р°С‚РёС‡РµСЃРєРё)
+echo Настройка сетевого интерфейса
+echo 1) Получить настройки по DHCP
+echo 2) Ввести вручную (статически)
 echo =============================
-set /p choice="Р’С‹Р±РµСЂРёС‚Рµ 1 РёР»Рё 2: "
-set /p interface="Р’РІРµРґРёС‚Рµ РёРјСЏ РёРЅС‚РµСЂС„РµР№СЃР° (РЅР°РїСЂРёРјРµСЂ: Ethernet):
+set /p choice="Выберите 1 или 2: "
+set /p interface="Введите имя интерфейса (например: Ethernet):
 "
 if "%choice%"=="1" (
-echo РџРѕР»СѓС‡РµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє С‡РµСЂРµР· DHCP...
+echo Получение настроек через DHCP...
 netsh interface ip set address name="!interface!" source=dhcp
 netsh interface ip set dns name="!interface!" source=dhcp
 goto :END
 )
 if "%choice%"=="2" (
-set /p ipaddr="Р’РІРµРґРёС‚Рµ IP-Р°РґСЂРµСЃ: "
-set /p mask="Р’РІРµРґРёС‚Рµ РјР°СЃРєСѓ: "
-set /p gw="Р’РІРµРґРёС‚Рµ С€Р»СЋР·: "
-set /p dns="Р’РІРµРґРёС‚Рµ DNS: "
+set /p ipaddr="Введите IP-адрес: "
+set /p mask="Введите маску: "
+set /p gw="Введите шлюз: "
+set /p dns="Введите DNS: "
 netsh interface ip set address name="!interface!" static !ipaddr!
 !mask! !gw! 1
 netsh interface ip set dns name="!interface!" static !dns!
 goto :END
 )
-echo РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ. РџРѕРїСЂРѕР±СѓР№С‚Рµ СЃРЅРѕРІР°.
+echo Неверный выбор. Попробуйте снова.
 :END
-echo РќР°СЃС‚СЂРѕР№РєР° Р·Р°РІРµСЂС€РµРЅР°.
+echo Настройка завершена.
 pause
